@@ -1,0 +1,117 @@
+# ════════════════════════════════════════
+#   WearLab Frontend — .gitignore
+#   Astro · TypeScript · Unity WebGL · Node
+# ════════════════════════════════════════
+
+
+# ── VARIABLES DE ENTORNO ──────────────────
+# NUNCA subir claves, tokens ni configuración sensible
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.*.local
+
+# Sí subir el ejemplo (sin valores reales)
+# .env.example  ← este SÍ va al repo
+
+
+# ── ASTRO ─────────────────────────────────
+dist/
+.astro/
+
+
+# ── NODE / NPM ────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Lockfiles alternativos (usa solo uno)
+# Si usas npm, ignora estos:
+# yarn.lock
+# pnpm-lock.yaml
+
+
+# ── TYPESCRIPT ────────────────────────────
+*.tsbuildinfo
+
+
+# ── UNITY WEBGL BUILD ─────────────────────
+# El build de Unity se genera aparte y es muy pesado
+# Se sirve desde /public/unity pero NO va al repo
+public/unity/Build/
+public/unity/TemplateData/
+
+# Sí subir la carpeta vacía con un .gitkeep
+# public/unity/.gitkeep  ← para que la carpeta exista en el repo
+
+
+# ── EDITORES E IDEs ───────────────────────
+
+# VS Code — solo ignorar configs personales, no las de equipo
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains (WebStorm, Rider)
+.idea/
+*.iml
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+
+
+# ── SISTEMA OPERATIVO ─────────────────────
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encdata
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+
+
+# ── LOGS Y TEMPORALES ─────────────────────
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+.temp/
+.tmp/
+tmp/
+temp/
+
+
+# ── TESTING ───────────────────────────────
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+.playwright/
+
+
+# ── MISC ──────────────────────────────────
+# Archivos comprimidos generados localmente
+*.zip
+*.tar.gz
+*.rar
+
+# Output de herramientas de análisis
+.cache/
+.parcel-cache/
