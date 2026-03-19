@@ -3,7 +3,6 @@
 > Primer marketplace de moda con configurador 3D en tiempo real hecho en Colombia.  
 > Proyecto desarrollado para el **Hackathon CubePath × midudev 2026**.
 
-<!-- BADGES -->
 ![Astro](https://img.shields.io/badge/Astro-5.x-FF5D01?style=flat-square&logo=astro&logoColor=white)
 ![Unity](https://img.shields.io/badge/Unity-6000.x-000000?style=flat-square&logo=unity&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -19,7 +18,9 @@
 
 1. **Marketplace multi-tenant** — diseñadores independientes colombianos abren su propia mini-tienda con URL única (`wearlab.co/tienda/[diseñador]`), suben sus colecciones y las hacen accesibles a toda la comunidad.
 
-2. **Configurador 3D en tiempo real** — cualquier prenda del catálogo se puede visualizar en un motor **Unity 6 WebGL** embebido en el navegador, sin plugins ni descargas.
+2. **Configurador 3D en tiempo real** — cualquier prenda del catálogo se puede visualizar en un motor **Unity 6 WebGL** embebido en el navegador, sin plugins ni descargas. El cliente rota, cambia colores y texturas antes de comprar.
+
+<!-- ![Demo WearLab](./docs/demo.gif) -->
 
 ---
 
@@ -31,9 +32,7 @@
 | 🎮 Configurador 3D | Unity 6 WebGL embebido — sin plugins |
 | 👗 Marketplace multi-tenant | Cada diseñador tiene su URL propia |
 | 🤖 IA generativa | Diseñadores generan estampados con prompts |
-| 🔐 Auth con 3 roles | Usuario · Diseñador · Admin — JWT + middleware Astro |
-| 📊 Dashboard diseñador | Gestión de colecciones, subida de prendas, estadísticas |
-| ⚙️ Panel admin | Backoffice completo para gestión de la plataforma |
+| 🔐 Auth con roles | JWT · 3 roles: Admin, Diseñador, Usuario |
 | 📱 Responsive | Mobile-first, funciona en todos los dispositivos |
 
 ---
@@ -42,9 +41,11 @@
 
 | Rol | Descripción | Acceso |
 |---|---|---|
-| **Usuario** | Se registra como cliente, navega y compra | Rutas públicas + `/cuenta` |
-| **Diseñador** | Vende sus creaciones, gestiona su colección | Todo lo anterior + `/dashboard/*` |
-| **Admin** | Gestiona toda la plataforma (creado en BD) | Todo lo anterior + `/admin/*` |
+| **Usuario** | Navega catálogo, visualiza en 3D, compra | Rutas públicas + `/cuenta` |
+| **Diseñador** | Sube diseños, gestiona colección, mini-tienda | Todo lo anterior + `/dashboard/*` |
+| **Admin** | Control total de la plataforma | Todo + `/admin/*` |
+
+> El rol Admin se crea directamente en la base de datos — no hay registro público para este rol.
 
 ---
 
@@ -72,16 +73,15 @@ wearlab-frontend/
 │   │   │   ├── PrendaForm.astro
 │   │   │   └── StatsCard.astro
 │   │   ├── admin/
+│   │   │   ├── AdminSidebar.astro
 │   │   │   ├── UserTable.astro
 │   │   │   └── DesignerTable.astro
 │   │   └── unity/
 │   │       └── UnityViewer.astro
-│   │
 │   ├── layouts/
-│   │   ├── BaseLayout.astro         # Nav + Footer — rutas públicas
-│   │   ├── DashboardLayout.astro    # Sidebar dorado — diseñador
-│   │   └── AdminLayout.astro        # Sidebar rojo — admin
-│   │
+│   │   ├── BaseLayout.astro        # Público — Nav + Footer
+│   │   ├── DashboardLayout.astro   # Diseñador — sidebar dorado
+│   │   └── AdminLayout.astro       # Admin — sidebar rojo
 │   ├── pages/
 │   │   ├── index.astro
 │   │   ├── catalogo.astro
@@ -91,31 +91,33 @@ wearlab-frontend/
 │   │   ├── auth/
 │   │   │   ├── login.astro
 │   │   │   └── register.astro
-│   │   ├── dashboard/               # 🔒 Solo diseñador + admin
+│   │   ├── dashboard/              # 🔒 Diseñador + Admin
 │   │   │   ├── index.astro
 │   │   │   ├── perfil.astro
 │   │   │   └── prendas/
 │   │   │       ├── index.astro
 │   │   │       ├── nueva.astro
 │   │   │       └── [id].astro
-│   │   └── admin/                   # 🔒 Solo admin
+│   │   └── admin/                  # 🔒 Solo Admin
 │   │       ├── index.astro
 │   │       ├── usuarios.astro
-│   │       ├── diseñadores.astro
-│   │       └── prendas.astro
-│   │
-│   ├── middleware.ts
-│   ├── styles/global.css
-│   ├── data/items.ts
-│   ├── types/index.ts
+│   │       ├── disenadores.astro
+│   │       ├── prendas.astro
+│   │       └── stats.astro
+│   ├── middleware.ts               # Protección de rutas por rol
+│   ├── styles/
+│   │   └── global.css
+│   ├── data/
+│   │   └── items.ts               # Mock catálogo → API en producción
+│   ├── types/
+│   │   └── index.ts
 │   └── lib/
 │       ├── httpClient.ts
 │       └── auth.ts
-│
 ├── public/
-│   └── unity/.gitkeep
+│   └── unity/
+│       └── .gitkeep               # Build WebGL no va al repo
 ├── .env.example
-├── .gitignore
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 ├── tsconfig.json
@@ -124,13 +126,13 @@ wearlab-frontend/
 
 ---
 
-## 🔒 Protección de rutas — middleware.ts
+## 🔐 Protección de rutas
 
 ```
 /dashboard/*  →  requiere rol DISEÑADOR o ADMIN
 /admin/*      →  requiere rol ADMIN únicamente
 /cuenta       →  requiere cualquier usuario autenticado
-Resto         →  público, sin auth
+/*            →  público
 ```
 
 ---
@@ -141,28 +143,37 @@ Resto         →  público, sin auth
 Astro                              Unity WebGL
   │                                    │
   │  SendMessage('Manager',            │
-  │    'LoadItem', guid)   ─────────→  │  Carga prenda 3D por GUID
+  │    'LoadItem', guid)  ──────────→  │  Carga prenda por GUID
   │                                    │
-  │  ←──── window.addToCart(guid)      │  Usuario hace click en comprar
-  │  ←──── window.onUnityReady()       │  Unity terminó de cargar
+  │  ←──── window.addToCart(guid)      │  Click en comprar
+  │                                    │
+  │  ←──── window.onUnityReady()       │  Unity listo
 ```
 
 ---
 
-## 🛠️ Stack tecnológico
+## 🎮 Escenas Unity
 
-### Frontend (este repo)
-- **Astro 5** — SSG + SSR
-- **Tailwind CSS 4** — utilidades de estilos
-- **TypeScript strict**
-- **Unity 6 WebGL** — configurador 3D
+| Escena | Acceso | Descripción |
+|---|---|---|
+| **Tienda 3D** | Usuario / Diseñador | Prenda por GUID, rotación, color |
+| **Panel Diseñador** | Solo Diseñador | Subir texturas, previsualizar en 3D |
+| **Lobby** | Todos | Menú de entrada, navegar al catálogo |
 
-### Backend ([wearlab-backend](https://github.com/TU_USUARIO/wearlab-backend))
-- **Node.js + Express 5 + TypeScript**
+---
+
+## 🛠️ Stack
+
+### Frontend
+- **Astro 5** + **Tailwind CSS 4** + **TypeScript strict**
+- **Unity 6 WebGL** embebido
+
+### Backend — [`wearlab-backend`](https://github.com/TU_USUARIO/wearlab-backend)
+- **Node.js + Express 5** + **TypeScript + Zod v4**
 - **Prisma + PostgreSQL** — datos transaccionales
-- **Mongoose + MongoDB** — diseños y audit logs
-- **JWT** — access token + refresh httpOnly
-- **Zod v4 + Swagger**
+- **Mongoose + MongoDB** — diseños, texturas, logs
+- **JWT** access token + refresh httpOnly
+- **Swagger** — documentación automática
 
 ---
 
@@ -180,11 +191,21 @@ Abre `http://localhost:4321`
 
 ---
 
+## 🌍 Variables de entorno
+
+```env
+PUBLIC_API_URL=http://localhost:3000
+PUBLIC_UNITY_BUILD_URL=/unity/Build
+AI_IMAGE_API_KEY=tu_api_key_aqui
+```
+
+---
+
 ## 📦 Scripts
 
 ```bash
 npm run dev        # Desarrollo
-npm run build      # Build producción
+npm run build      # Producción
 npm run preview    # Preview del build
 npm run check      # TypeScript check
 ```
@@ -193,15 +214,15 @@ npm run check      # TypeScript check
 
 ## 🗺️ Roadmap
 
-- [x] Astro + Tailwind + TypeScript strict inicializado
-- [x] Arquitectura de 3 roles definida
+- [x] Proyecto Astro + Tailwind inicializado
+- [x] Repositorio GitHub configurado
+- [x] README + .gitignore + .env.example
 - [ ] Estructura de carpetas y componentes base
-- [ ] BaseLayout + Nav + Footer
 - [ ] Landing con catálogo
+- [ ] Modal Login / Registro con roles
 - [ ] Middleware de protección de rutas
-- [ ] Auth modal (login / registro)
-- [ ] Dashboard diseñador
-- [ ] Panel admin
+- [ ] Dashboard del diseñador
+- [ ] Panel de administración
 - [ ] Integración Unity WebGL
 - [ ] Conexión con API backend
 - [ ] Deploy en CubePath
