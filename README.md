@@ -233,7 +233,7 @@ npm run check      # TypeScript check
 
 | Rol | Perfil |
 |---|---|
-| Fundador & Dev Full Stack | [@TU_USUARIO](https://github.com/checho123) |
+| Fundador & Dev Full Stack | [@Checho123](https://github.com/checho123) |
 
 ---
 
