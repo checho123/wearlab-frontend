@@ -1,0 +1,74 @@
+---
+const navLinks = [
+  { href: "/catalogo",    label: "Catálogo" },
+  { href: "/diseñadores", label: "Diseñadores" },
+  { href: "/nosotros",    label: "Nosotros" },
+];
+const currentPath = Astro.url.pathname;
+
+const linkClass = (href: string) =>
+  `text-xs font-semibold tracking-widest uppercase no-underline transition-colors duration-200 ${
+    currentPath === href ? "text-white" : "text-neutral-500 hover:text-white"
+  }`;
+---
+
+<header id="nav" class="fixed top-0 left-0 right-0 z-300 bg-black border-b border-neutral-900 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-8 h-15 flex items-center justify-between">
+
+    <a href="/" class="font-serif text-xl font-bold italic text-white no-underline">
+      Wear<span class="text-red-700 not-italic">Lab</span>
+    </a>
+
+    <nav class="hidden md:flex gap-8">
+      {navLinks.map(link => (
+        <a href={link.href} class={linkClass(link.href)}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <button id="btnLogin" class="hidden md:block text-xs font-semibold tracking-widest uppercase text-neutral-500 hover:text-white bg-transparent border-none cursor-pointer transition-colors duration-200">
+        Iniciar sesión
+      </button>
+      <a href="/auth/register" class="hidden md:inline-block text-xs font-bold tracking-widest uppercase bg-red-700 hover:bg-red-600 text-white px-4 py-2 no-underline transition-colors duration-200">
+        Únete
+      </a>
+      <button id="ham" class="flex md:hidden flex-col gap-1 cursor-pointer bg-transparent border-none p-1">
+        <span class="w-4 h-px bg-white block"></span>
+        <span class="w-4 h-px bg-white block"></span>
+        <span class="w-4 h-px bg-white block"></span>
+      </button>
+    </div>
+
+  </div>
+
+  <div id="mobileMenu" class="hidden flex-col bg-black border-t border-neutral-900 px-8 py-4">
+    {navLinks.map(link => (
+      <a href={link.href} class="text-xs font-semibold tracking-widest uppercase text-neutral-500 hover:text-white no-underline py-3 border-b border-neutral-900 transition-colors duration-200">
+        {link.label}
+      </a>
+    ))}
+    <a href="/auth/login" class="text-xs font-semibold tracking-widest uppercase text-neutral-500 hover:text-white no-underline py-3 border-b border-neutral-900 transition-colors duration-200">Iniciar sesión</a>
+    <a href="/auth/register" class="text-xs font-semibold tracking-widest uppercase text-neutral-500 hover:text-white no-underline py-3 transition-colors duration-200">Únete</a>
+  </div>
+</header>
+
+<script>
+  const ham = document.getElementById("ham");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  ham?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("hidden");
+    mobileMenu?.classList.toggle("flex");
+  });
+
+  window.addEventListener("scroll", () => {
+    const nav = document.getElementById("nav");
+    if (window.scrollY > 10) {
+      nav?.classList.add("backdrop-blur-xl", "bg-black/90");
+    } else {
+      nav?.classList.remove("backdrop-blur-xl", "bg-black/90");
+    }
+  });
+</script>

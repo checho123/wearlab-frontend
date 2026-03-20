@@ -1,23 +1,32 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import Nav from "../components/layout/Nav.astro";
+import Footer from "../components/layout/Footer.astro";
+import "../styles/global.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title:        string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "El primer marketplace de moda con configurador 3D en tiempo real. Hecho en Colombia.",
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | WearLab</title>
+  </head>
+  <body class="bg-white text-black">
+    <Nav />
+    <main class="pt-15">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
