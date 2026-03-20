@@ -1,0 +1,18 @@
+---
+import type { Item } from "../../data/items";
+import ProductCard from "./ProductCard.astro";
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-neutral-200">
+  {items.map(item => (
+    <div class="bg-white">
+      <ProductCard item={item} />
+    </div>
+  ))}
+</div>
