@@ -1,142 +1,94 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CategoryBar from "../components/catalog/CategoryBar.astro";
-import CatalogGrid from "../components/catalog/CatalogGrid.astro";
-import { ITEMS } from "../data/items";
+import CategoryGrid from "../components/catalog/CategoryGrid.astro";
+import StatsBar from "../components/hero/StatsBar.astro";
+import DesignersMarquee from "../components/designers/DesignersMarquee.astro";
 ---
 
 <BaseLayout title="Inicio">
 
   <!-- HERO -->
-  <section class="relative h-screen min-h-150 bg-black overflow-hidden">
+  <section class="relative h-screen min-h-150 bg-[#080808] overflow-hidden">
     <div class="absolute inset-0">
       <img
-        src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1400&q=85"
-        alt="WearLab Hero"
-        class="w-full h-full object-cover opacity-70"
+        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85"
+        alt="Hero"
+        class="w-full h-full object-cover opacity-45"
       />
-      <div class="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/80"></div>
+    </div>
+    <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.85)_0%,rgba(0,0,0,0.2)_60%,rgba(196,26,26,0.15)_100%)]"></div>
+    <div
+      class="absolute inset-0 pointer-events-none"
+      style="background-image: repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 120px), repeating-linear-gradient(0deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 120px);"
+    ></div>
+
+    <div class="absolute top-6 right-6 z-10 flex items-center gap-2 bg-black/70 border border-red-700/40 px-3 py-2">
+      <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+      <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500">Configurador 3D · Unity WebGL</span>
     </div>
 
-    <!-- Contenido hero -->
-    <div class="absolute bottom-0 left-0 right-0 z-10 p-8 md:p-16">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+    <div class="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-12 lg:p-16">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+        <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/45">
+          Marketplace de moda · Colombia · 2026
+        </span>
+      </div>
 
-        <div>
-          <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/60 mb-4 flex items-center gap-2">
-            <span class="w-6 h-px bg-white/40 inline-block"></span>
-            Nueva temporada · 2026
-          </p>
-          <h1 class="font-serif italic text-white leading-none mb-6" style="font-size: clamp(3rem, 8vw, 7rem);">
-            Viste el<br>
-            <span class="text-red-600">fu</span><span style="-webkit-text-stroke: 1.5px white; color: transparent;">turo</span><br>
-            en 3D
-          </h1>
-          <p class="text-white/60 text-sm font-light leading-relaxed max-w-md mb-8">
-            El primer marketplace de moda con configurador 3D en tiempo real.
-            Explora colecciones de diseñadores independientes de Colombia.
-          </p>
-          <div class="flex gap-3 flex-wrap">
-            <a href="#catalogo" class="text-[11px] font-bold tracking-widest uppercase bg-white text-black px-6 py-3 hover:bg-neutral-100 transition-colors no-underline">
-              Ver catálogo
-            </a>
-            <a href="/auth/register" class="text-[11px] font-bold tracking-widest uppercase bg-amber-700 text-white px-6 py-3 hover:bg-amber-600 transition-colors no-underline">
-              Ser diseñador
-            </a>
-          </div>
-        </div>
+      <h1 class="font-serif italic text-white leading-none mb-5 tracking-tight" style="font-size: clamp(3rem, 7vw, 6rem);">
+        Diseña.<br />
+        Personaliza<br />
+        en <span class="text-red-600">3D</span>
+        <span style="-webkit-text-stroke: 1.5px white; color: transparent;">real.</span>
+      </h1>
 
-        <!-- Card flotante -->
-        <div class="hidden md:block">
-          <div class="bg-black/50 backdrop-blur border border-white/10 p-5 max-w-xs ml-auto">
-            <p class="text-[10px] font-bold tracking-widest uppercase text-white/40 mb-2">Destacado</p>
-            <p class="font-serif italic text-white text-lg mb-1">Colección Noir Vol.2</p>
-            <p class="text-white/50 text-xs mb-4">por Studio Cero · 14 prendas</p>
-            <a href="#catalogo" class="block text-center text-[11px] font-bold tracking-widest uppercase bg-white text-black py-2 hover:bg-neutral-100 transition-colors no-underline">
-              Ver colección →
-            </a>
-          </div>
-        </div>
+      <p class="text-white/50 text-sm font-light leading-relaxed max-w-md mb-8">
+        Configura cada prenda en tiempo real con tecnología Unity WebGL.
+        El primer marketplace con visualización 3D inmersiva de Colombia.
+      </p>
 
+      <div class="flex gap-3 flex-wrap mb-10">
+        <a href="#catalogo" class="text-[10px] font-bold tracking-widest uppercase bg-red-700 text-white px-6 py-3 hover:bg-red-600 transition-colors no-underline">
+          Explorar en 3D
+        </a>
+        <a href="/auth/register" class="text-[10px] font-bold tracking-widest uppercase bg-transparent text-white border border-white/30 px-6 py-3 hover:border-white/60 transition-colors no-underline">
+          Ser diseñador
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="h-px bg-white/20 w-8"></div>
+        <span class="text-[9px] font-bold tracking-[0.2em] uppercase text-white/25">Ver colección</span>
       </div>
     </div>
 
-    <!-- Badge 3D -->
-    <div class="absolute top-6 right-6 z-10 flex items-center gap-2 bg-black/60 border border-red-700/40 px-3 py-2 backdrop-blur">
-      <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-      <span class="text-[10px] font-bold tracking-widest uppercase text-red-500">Unity WebGL · 3D activo</span>
+    <div class="hidden md:block absolute right-12 bottom-12 z-10 w-52 bg-black/60 border border-white/10 p-5 backdrop-blur-sm">
+      <p class="text-[9px] font-bold tracking-[0.2em] uppercase text-red-500 mb-2">Configurador 3D</p>
+      <p class="font-serif italic text-white text-base mb-1">Chaqueta Noir Vol.2</p>
+      <p class="text-white/40 text-[10px] mb-4">Studio Cero · 4 variantes</p>
+      <div class="flex flex-col gap-2 mb-4">
+        {["Color en tiempo real", "Cambio de texturas", "Vista 360°"].map(f => (
+          <div class="flex items-center gap-2 text-[10px] text-white/60">
+            <span class="w-1 h-1 rounded-full bg-red-600 shrink-0" />
+            {f}
+          </div>
+        ))}
+      </div>
+      <a href="#catalogo" class="block text-center text-[9px] font-bold tracking-widest uppercase bg-red-700 text-white py-2.5 hover:bg-red-600 transition-colors no-underline">
+        Abrir configurador
+      </a>
     </div>
   </section>
 
   <!-- STATS -->
-  <div class="bg-white border-b border-neutral-200 grid grid-cols-2 md:grid-cols-4">
-    {[
-      { n: "3D",  l: "Unity WebGL" },
-      { n: "48",  l: "Prendas" },
-      { n: "12",  l: "Diseñadores" },
-      { n: "#1",  l: "Moda 3D Colombia" },
-    ].map(s => (
-      <div class="py-6 text-center border-r border-neutral-200 last:border-r-0">
-        <span class="font-serif text-3xl font-bold text-black block">{s.n}</span>
-        <span class="text-[10px] font-bold tracking-widest uppercase text-neutral-400 mt-1 block">{s.l}</span>
-      </div>
-    ))}
-  </div>
+  <StatsBar />
 
-  <!-- CATÁLOGO -->
+  <!-- CATEGORÍAS + BENTO -->
   <section id="catalogo" class="bg-white">
-    <CategoryBar />
-    <div class="max-w-7xl mx-auto px-4 py-8">
-      <div class="flex items-center justify-between mb-6 px-2">
-        <h2 class="font-serif italic text-2xl font-bold text-black">
-          Colección <span class="text-red-700">actual</span>
-        </h2>
-        <span id="itemCount" class="text-xs text-neutral-400">{ITEMS.length} prendas</span>
-      </div>
-      <div id="catalogWrapper">
-        <CatalogGrid items={ITEMS} />
-      </div>
-    </div>
+    <CategoryGrid />
   </section>
 
+  <!-- DISEÑADORES -->
+  <DesignersMarquee />
+
 </BaseLayout>
-
-<script>
-  import { ITEMS } from "../data/items";
-
-  window.addEventListener("wearlab:filterCat", (e: Event) => {
-    const cat = (e as CustomEvent).detail.cat;
-    const filtered = cat === "todos"
-      ? ITEMS
-      : ITEMS.filter(i => i.category === cat);
-
-    const count = document.getElementById("itemCount");
-    if (count) count.textContent = `${filtered.length} prendas`;
-
-    const wrapper = document.getElementById("catalogWrapper");
-    if (!wrapper) return;
-
-    wrapper.innerHTML = filtered.map(item => `
-      <div class="bg-white">
-        <article class="group relative bg-white cursor-pointer" data-guid="${item.guid}">
-          <div class="relative overflow-hidden bg-neutral-100" style="aspect-ratio:2/3">
-            <img src="${item.img}" alt="${item.name}" loading="lazy"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
-            ${item.isNew ? `<span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase bg-black text-white px-2 py-1">Nuevo</span>` : ""}
-            <span class="absolute bottom-3 left-3 text-[10px] font-bold tracking-widest uppercase bg-amber-700 text-white px-2 py-1">3D</span>
-          </div>
-          <div class="pt-3 pb-4 px-1">
-            <p class="text-[10px] font-bold tracking-widest uppercase text-red-700 mb-1">${item.designer}</p>
-            <h3 class="font-serif italic text-base font-bold text-black leading-tight mb-1">${item.name}</h3>
-            <p class="text-sm font-medium text-black">${item.price}</p>
-          </div>
-        </article>
-      </div>
-    `).join("");
-
-    wrapper.querySelector("div")?.closest("div")?.setAttribute(
-      "class",
-      "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-neutral-200"
-    );
-  });
-</script>

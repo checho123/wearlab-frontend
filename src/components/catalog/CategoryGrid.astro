@@ -1,0 +1,347 @@
+---
+import { CATEGORIES, ITEMS, DESIGNERS } from "../../data/items";
+---
+
+<!-- CATEGORÍAS -->
+<div class="max-w-7xl mx-auto px-4 pt-12 pb-6">
+  <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-neutral-400 mb-1">
+    Colecciones · 2026
+  </p>
+  <h2 class="font-serif italic text-2xl font-bold text-black mb-6">
+    Explorar por <span class="text-red-700">categoría</span>
+  </h2>
+
+  <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+    {CATEGORIES.map(cat => (
+      <button
+        class:list={[
+          "cat-card group relative overflow-hidden rounded-xl border-2 border-transparent",
+          "cursor-pointer transition-all duration-300",
+          "hover:border-red-700 hover:-translate-y-0.5 hover:shadow-xl",
+          cat.soon ? "opacity-40 pointer-events-none" : ""
+        ]}
+        style="aspect-ratio: 2/3; max-height: 180px"
+        data-cat={cat.key}
+      >
+        <img
+          src={cat.img}
+          alt={cat.label}
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          style="filter: brightness(0.5)"
+        />
+        <div class="absolute inset-0 bg-linear-to-t from-black/85 via-black/10 to-transparent"></div>
+
+        {!cat.soon && (
+          <div class="absolute top-2 left-2 flex items-center gap-1 bg-black/60 border border-white/10 px-2 py-0.5 rounded-full">
+            <span class="w-1 h-1 rounded-full bg-red-600 animate-pulse"></span>
+            <span class="text-[7px] font-bold tracking-widest uppercase text-white/50">3D</span>
+          </div>
+        )}
+
+        <div class="absolute bottom-0 left-0 right-0 p-2.5 z-10">
+          <h3 class="font-serif italic text-sm font-bold text-white leading-tight mb-0.5">
+            {cat.label}
+          </h3>
+          <p class="text-[9px] text-white/35 mb-1.5">{cat.sub}</p>
+          {!cat.soon && (
+            <div class="flex items-center gap-1.5 text-[7px] font-bold tracking-widest uppercase text-white/25 group-hover:text-white transition-colors">
+              <div class="cat-line h-px bg-white/20 w-3 group-hover:w-5 group-hover:bg-red-600 transition-all duration-300"></div>
+              Explorar
+            </div>
+          )}
+        </div>
+
+        <div class="cat-bar absolute bottom-0 left-0 right-0 h-0.5 bg-red-700 scale-x-0 origin-left transition-transform duration-300"></div>
+      </button>
+    ))}
+  </div>
+</div>
+
+<!-- FRANJA NEGRA + BENTO -->
+<div class="bg-[#0a0a0a] w-full py-10 px-4">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <p class="text-[9px] font-bold tracking-[0.3em] uppercase text-white/25 mb-1">Vista previa</p>
+        <h2 class="font-serif italic text-xl font-bold text-white" id="bentoTitle">Camisas</h2>
+      </div>
+      <div class="flex items-center gap-2 bg-black border border-red-700/30 px-3 py-2 rounded-lg">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
+        <span class="text-[8px] font-bold tracking-widest uppercase text-red-500">Unity WebGL · 3D</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+      <!-- Render IA -->
+      <div class="lg:col-span-2 relative rounded-2xl overflow-hidden bg-[#111]" style="min-height:420px">
+        <img
+          id="bentoImg"
+          src=""
+          alt="Render"
+          class="absolute inset-0 w-full h-full object-cover opacity-80 transition-all duration-500"
+        />
+        <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
+
+        <div class="absolute top-4 left-4 flex items-center gap-2 bg-black/70 border border-white/10 px-3 py-1.5 rounded-lg">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
+          <span class="text-[8px] font-bold tracking-widest uppercase text-white/45">Render · Imagen IA</span>
+        </div>
+
+        <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between z-10">
+          <span class="text-[8px] text-white/20 bg-black/50 border border-white/5 px-3 py-1.5 rounded">
+            Imagen generada con IA · solo referencia visual
+          </span>
+          <button
+            id="btnUnity"
+            class="flex items-center gap-2 bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-[9px] font-bold tracking-widest uppercase transition-colors"
+          >
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="white"><path d="M5 3l14 9-14 9V3z"/></svg>
+            Ver en Unity 3D
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel derecho -->
+      <div class="flex flex-col gap-3">
+
+        <!-- Diseñador + producto -->
+        <div class="bg-[#111] rounded-2xl p-4 border border-white/5 flex-1">
+          <div class="flex items-center gap-3 pb-3 border-b border-white/7 mb-3">
+            <img
+              id="bentoAvatar"
+              src=""
+              alt="Diseñador"
+              class="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold text-white truncate" id="bentoDName">—</p>
+              <p class="text-[9px] text-white/30 mt-0.5" id="bentoDProducts">—</p>
+            </div>
+            <span class="text-[7px] font-bold tracking-widest uppercase bg-red-700/20 text-red-400 border border-red-700/30 px-2 py-1 rounded-full shrink-0">
+              Diseñador
+            </span>
+          </div>
+          <p class="font-serif italic text-base font-bold text-white mb-1" id="bentoPName">—</p>
+          <p class="text-sm font-bold text-white mb-2" id="bentoPPrice">—</p>
+          <p class="text-[10px] text-white/30 leading-relaxed" id="bentoPDesc">—</p>
+        </div>
+
+        <!-- Tallas -->
+        <div class="bg-[#111] rounded-2xl p-4 border border-white/5">
+          <p class="text-[8px] font-bold tracking-[0.2em] uppercase text-white/30 mb-2">Talla</p>
+          <div class="flex gap-1.5 flex-wrap" id="bentoSizes"></div>
+        </div>
+
+        <!-- Paleta dinámica -->
+        <div class="bg-[#111] rounded-2xl p-4 border border-white/5">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[8px] font-bold tracking-[0.2em] uppercase text-white/30">
+              Colores disponibles
+            </p>
+            <p class="text-[8px] text-white/20 italic">Se aplican en Unity 3D</p>
+          </div>
+          <div class="flex gap-2 items-center flex-wrap" id="bentoPalette"></div>
+        </div>
+
+        <!-- Botones -->
+        <button
+          id="btnView"
+          class="w-full bg-red-700 hover:bg-red-600 text-white py-2.5 rounded-xl text-[9px] font-bold tracking-widest uppercase transition-colors flex items-center justify-center gap-2"
+        >
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Ver prenda completa
+        </button>
+        <button
+          id="btnWish"
+          class="w-full bg-transparent border border-white/10 hover:border-red-700/40 text-white/30 hover:text-red-400 py-2.5 rounded-xl text-[9px] font-bold tracking-widest uppercase transition-all"
+        >
+          ♡ Guardar en wishlist
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mejor valoradas -->
+    <div class="mt-8">
+      <p class="text-[9px] font-bold tracking-[0.2em] uppercase text-white/25 mb-3">
+        Mejor valoradas en esta categoría
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="moreGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import { CATEGORIES, ITEMS, DESIGNERS } from "../../data/items";
+
+  const cards = document.querySelectorAll<HTMLButtonElement>(".cat-card");
+  let currentGuid = "";
+
+  function updateBento(catKey: string) {
+    const items = ITEMS.filter(i => i.category === catKey);
+    if (!items.length) return;
+
+    const top = [...items].sort((a, b) => b.rating - a.rating)[0];
+    const designer = DESIGNERS.find(d => d.name === top.designer);
+    const catLabel = CATEGORIES.find(c => c.key === catKey)?.label ?? catKey;
+
+    currentGuid = top.guid;
+
+    // Título
+    (document.getElementById("bentoTitle") as HTMLElement).textContent = catLabel;
+
+    // Imagen
+    (document.getElementById("bentoImg") as HTMLImageElement).src = top.img;
+
+    // Avatar diseñador
+    (document.getElementById("bentoAvatar") as HTMLImageElement).src = designer?.avatar ?? "";
+    (document.getElementById("bentoDName") as HTMLElement).textContent = top.designer;
+    (document.getElementById("bentoDProducts") as HTMLElement).textContent = `${designer?.products ?? "—"} productos`;
+
+    // Producto
+    (document.getElementById("bentoPName") as HTMLElement).textContent = top.name;
+    (document.getElementById("bentoPPrice") as HTMLElement).textContent = top.price;
+    (document.getElementById("bentoPDesc") as HTMLElement).textContent = top.desc;
+
+    // Tallas
+    const sizesEl = document.getElementById("bentoSizes")!;
+    sizesEl.innerHTML = top.sizes.map(s => `
+      <button class="size-btn w-8 h-8 border border-white/10 rounded-lg text-[9px] font-bold text-white/40 hover:border-red-700 hover:text-red-500 transition-all">
+        ${s}
+      </button>
+    `).join("");
+
+    sizesEl.querySelectorAll<HTMLButtonElement>(".size-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        sizesEl.querySelectorAll(".size-btn").forEach(b => {
+          b.classList.remove("border-red-700", "text-red-500");
+          b.classList.add("border-white/10", "text-white/40");
+        });
+        btn.classList.add("border-red-700", "text-red-500");
+        btn.classList.remove("border-white/10", "text-white/40");
+      });
+    });
+
+    // Paleta dinámica desde el item
+    const palette = document.getElementById("bentoPalette")!;
+    palette.innerHTML = top.colors.map((c, i) => `
+      <div
+        class="color-swatch relative group/swatch"
+        title="${c.name}"
+      >
+        <div
+          class="w-7 h-7 rounded-full border-2 ${i === 0 ? "border-white/60 scale-110" : "border-transparent"} transition-all cursor-default"
+          style="background:${c.hex}"
+        ></div>
+        <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-black/80 text-white text-[8px] px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none">
+          ${c.name}
+        </div>
+      </div>
+    `).join("") + `
+      <span class="text-[8px] text-white/20 italic ml-1">·  aplica en Unity</span>
+    `;
+
+    // Mejor valoradas
+    const sorted = [...items].sort((a, b) => b.rating - a.rating);
+    document.getElementById("moreGrid")!.innerHTML = sorted.map((item, i) => `
+      <div
+        class="more-item rounded-xl overflow-hidden border-2 ${i === 0 ? "border-red-700" : "border-white/10"} bg-[#111] hover:border-red-700 transition-all group cursor-pointer"
+        data-guid="${item.guid}"
+      >
+        <div style="aspect-ratio:2/3;overflow:hidden">
+          <img
+            src="${item.img}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            style="filter:brightness(.8)"
+          />
+        </div>
+        <div class="p-2.5">
+          <p class="text-[8px] font-bold tracking-widest uppercase text-red-500 mb-0.5">${item.designer}</p>
+          <p class="text-[10px] font-bold text-white font-serif italic">${item.name}</p>
+          <p class="text-[9px] text-white/40 mt-0.5">${item.price}</p>
+          <div class="flex gap-1 mt-1.5">
+            ${item.colors.slice(0,4).map((c,ci) => `
+              <div class="w-3 h-3 rounded-full border border-white/20" style="background:${c.hex}" title="${c.name}"></div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    // Click en mini cards → actualiza bento con esa prenda
+    document.querySelectorAll<HTMLElement>(".more-item").forEach(card => {
+      card.addEventListener("click", () => {
+        const guid = card.dataset.guid!;
+        const item = ITEMS.find(i => i.guid === guid);
+        if (!item) return;
+        currentGuid = guid;
+        (document.getElementById("bentoImg") as HTMLImageElement).src = item.img;
+        (document.getElementById("bentoPName") as HTMLElement).textContent = item.name;
+        (document.getElementById("bentoPPrice") as HTMLElement).textContent = item.price;
+        (document.getElementById("bentoPDesc") as HTMLElement).textContent = item.desc;
+
+        const pal = document.getElementById("bentoPalette")!;
+        pal.innerHTML = item.colors.map((c, i) => `
+          <div class="color-swatch relative group/swatch" title="${c.name}">
+            <div class="w-7 h-7 rounded-full border-2 ${i === 0 ? "border-white/60 scale-110" : "border-transparent"} transition-all cursor-default" style="background:${c.hex}"></div>
+            <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-black/80 text-white text-[8px] px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none">${c.name}</div>
+          </div>
+        `).join("") + `<span class="text-[8px] text-white/20 italic ml-1">· aplica en Unity</span>`;
+
+        const sz = document.getElementById("bentoSizes")!;
+        sz.innerHTML = item.sizes.map(s => `
+          <button class="size-btn w-8 h-8 border border-white/10 rounded-lg text-[9px] font-bold text-white/40 hover:border-red-700 hover:text-red-500 transition-all">${s}</button>
+        `).join("");
+
+        document.querySelectorAll<HTMLElement>(".more-item").forEach(c => {
+          c.classList.remove("border-red-700");
+          c.classList.add("border-white/10");
+        });
+        card.classList.add("border-red-700");
+        card.classList.remove("border-white/10");
+      });
+    });
+  }
+
+  function activateCard(card: HTMLButtonElement) {
+    cards.forEach(c => {
+      c.classList.remove("border-red-700");
+      c.classList.add("border-transparent");
+      c.querySelector(".cat-bar")?.classList.remove("scale-x-100");
+      c.querySelector(".cat-bar")?.classList.add("scale-x-0");
+    });
+    card.classList.add("border-red-700");
+    card.classList.remove("border-transparent");
+    card.querySelector(".cat-bar")?.classList.add("scale-x-100");
+    card.querySelector(".cat-bar")?.classList.remove("scale-x-0");
+  }
+
+  // Botón Ver prenda completa → navega a /producto/[guid]
+  document.getElementById("btnView")?.addEventListener("click", () => {
+    if (currentGuid) window.location.href = `/producto/${currentGuid}`;
+  });
+
+  // Botón Ver en Unity 3D → mismo destino
+  document.getElementById("btnUnity")?.addEventListener("click", () => {
+    if (currentGuid) window.location.href = `/producto/${currentGuid}`;
+  });
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      activateCard(card as HTMLButtonElement);
+      const cat = card.dataset.cat!;
+      updateBento(cat);
+      window.dispatchEvent(new CustomEvent("wearlab:filterCat", { detail: { cat } }));
+    });
+  });
+
+  // Primera categoría activa por defecto sin scroll
+  const firstCard = cards[0] as HTMLButtonElement;
+  if (firstCard) {
+    activateCard(firstCard);
+    updateBento(firstCard.dataset.cat!);
+  }
+</script>

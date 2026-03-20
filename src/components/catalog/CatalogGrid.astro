@@ -9,10 +9,30 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-neutral-200">
+<div
+  id="catalogGrid"
+  class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
+>
   {items.map(item => (
-    <div class="bg-white">
+    <div class="catalog-item" data-category={item.category}>
       <ProductCard item={item} />
     </div>
   ))}
 </div>
+
+<script>
+  window.addEventListener("wearlab:filterCat", (e: Event) => {
+    const cat = (e as CustomEvent).detail.cat;
+    const items = document.querySelectorAll<HTMLElement>(".catalog-item");
+    let visible = 0;
+
+    items.forEach(el => {
+      const match = cat === "todos" || el.dataset.category === cat;
+      el.style.display = match ? "" : "none";
+      if (match) visible++;
+    });
+
+    const count = document.getElementById("itemCount");
+    if (count) count.textContent = `${visible} prendas`;
+  });
+</script>
