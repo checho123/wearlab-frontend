@@ -1,0 +1,179 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ITEMS, CATEGORIES } from "../data/items";
+---
+
+<BaseLayout title="Catálogo · WearLab">
+
+  <!-- HEADER -->
+  <section class="bg-[#080808] py-16 px-4">
+    <div class="max-w-7xl mx-auto">
+      <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-2">
+        WearLab · 2026
+      </p>
+      <h1 class="font-serif italic text-white leading-none mb-4" style="font-size: clamp(2.5rem, 5vw, 4.5rem)">
+        Catálogo <span class="text-red-600">3D</span>
+      </h1>
+      <p class="text-white/40 text-sm max-w-md">
+        Todas las prendas disponibles con configurador Unity WebGL en tiempo real.
+      </p>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <div class="sticky top-0 z-50 bg-white border-b border-neutral-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3 flex-wrap">
+
+      <div class="flex items-center gap-1 bg-neutral-100 rounded-xl p-1">
+        <button class="gender-btn active px-4 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase transition-all" data-gender="todos">Todos</button>
+        <button class="gender-btn px-4 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase transition-all" data-gender="hombre">Hombre</button>
+        <button class="gender-btn px-4 py-1.5 rounded-lg text-[10px] font-bold tracking-widest uppercase transition-all" data-gender="mujer">Mujer</button>
+      </div>
+
+      <div class="h-6 w-px bg-neutral-200"></div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <button class="cat-filter-btn active text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border transition-all" data-cat="todos">
+          Todas
+        </button>
+        {CATEGORIES.filter(c => !c.soon).map(cat => (
+          <button class="cat-filter-btn text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full border transition-all" data-cat={cat.key}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <div class="flex-1"></div>
+      <span id="catalogCount" class="text-xs text-neutral-400 shrink-0"></span>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <section class="bg-white py-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div id="catalogGridWrapper"></div>
+      <div class="flex items-center justify-center gap-2 mt-12" id="pagination"></div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .gender-btn { color:#aaa; background:transparent; border:none; cursor:pointer; }
+  .gender-btn.active { background:#c41a1a; color:white; }
+  .cat-filter-btn { color:#aaa; border-color:#e5e5e5; background:white; cursor:pointer; }
+  .cat-filter-btn.active { border-color:#c41a1a; color:#c41a1a; background:#fff5f5; }
+</style>
+
+<script>
+  import { ITEMS } from "../data/items";
+
+  const PAGE_SIZE = 8;
+  let currentCat = "todos";
+  let currentGender = "todos";
+  let currentPage = 1;
+  
+  const getFiltered = () =>
+    ITEMS.filter(item => {
+      const matchCat    = currentCat === "todos" || item.category === currentCat;
+      const matchGender = currentGender === "todos" || item.gender === currentGender || item.gender === "unisex";
+      return matchCat && matchGender;
+    });
+
+  const renderGrid = () => {
+    const filtered = getFiltered();
+    const total = filtered.length;
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+    const count = document.getElementById("catalogCount");
+    if (count) count.textContent = `${total} prendas`;
+
+    document.getElementById("catalogGridWrapper")!.innerHTML = `
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        ${paginated.map(item => `
+          <article
+            class="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+            data-guid="${item.guid}"
+            onclick="window.location.href='/producto/${item.guid}'"
+          >
+            <div class="relative overflow-hidden bg-neutral-100" style="aspect-ratio:2/3">
+              <img
+                src="${item.img}"
+                alt="${item.name}"
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                onerror="this.parentElement.style.background='#f0f0f0'"
+              />
+              ${item.isNew ? `<span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase bg-black text-white px-2 py-1 rounded-sm">Nuevo</span>` : ""}
+              <span class="absolute bottom-3 left-3 text-[10px] font-bold tracking-widest uppercase bg-amber-700 text-white px-2 py-1 rounded-sm flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-white inline-block"></span>3D
+              </span>
+              <div class="absolute bottom-3 right-3 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                <button onclick="event.stopPropagation(); window.location.href='/producto/${item.guid}'" class="text-[10px] font-bold tracking-widest uppercase bg-white text-black px-3 py-1.5 rounded-sm hover:bg-neutral-100 transition-colors shadow-sm">Ver</button>
+                <button onclick="event.stopPropagation(); window.location.href='/producto/${item.guid}'" class="text-[10px] font-bold tracking-widest uppercase bg-amber-700 text-white px-3 py-1.5 rounded-sm hover:bg-amber-600 transition-colors shadow-sm">Ver 3D</button>
+              </div>
+            </div>
+            <div class="pt-3 pb-4 px-4">
+              <p class="text-[10px] font-bold tracking-widest uppercase text-red-700 mb-1">${item.designer}</p>
+              <h3 class="font-serif italic text-base font-bold text-black leading-tight mb-1">${item.name}</h3>
+              <p class="text-sm font-medium text-black mb-2">${item.price}</p>
+              <div class="flex gap-1">
+                ${item.colors.slice(0,4).map(c => `
+                  <div class="w-3 h-3 rounded-full border border-neutral-200" style="background:${c.hex}" title="${c.name}"></div>
+                `).join("")}
+              </div>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+
+    const pagination = document.getElementById("pagination")!;
+    if (totalPages <= 1) { pagination.innerHTML = ""; return; }
+
+    pagination.innerHTML = `
+      <button id="prevPage" class="px-4 py-2 rounded-lg border border-neutral-200 text-[10px] font-bold tracking-widest uppercase text-neutral-400 hover:border-red-700 hover:text-red-700 transition-all ${currentPage === 1 ? "opacity-40 pointer-events-none" : ""}">← Anterior</button>
+      ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `
+        <button class="page-btn w-9 h-9 rounded-lg border text-[11px] font-bold transition-all ${p === currentPage ? "border-red-700 bg-red-700 text-white" : "border-neutral-200 text-neutral-400 hover:border-red-700 hover:text-red-700"}" data-page="${p}">${p}</button>
+      `).join("")}
+      <button id="nextPage" class="px-4 py-2 rounded-lg border border-neutral-200 text-[10px] font-bold tracking-widest uppercase text-neutral-400 hover:border-red-700 hover:text-red-700 transition-all ${currentPage === totalPages ? "opacity-40 pointer-events-none" : ""}">Siguiente →</button>
+    `;
+
+    document.getElementById("prevPage")?.addEventListener("click", () => {
+      if (currentPage > 1) { currentPage--; renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    });
+    document.getElementById("nextPage")?.addEventListener("click", () => {
+      if (currentPage < totalPages) { currentPage++; renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    });
+    document.querySelectorAll<HTMLButtonElement>(".page-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentPage = parseInt(btn.dataset.page!);
+        renderGrid();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  };
+
+  document.querySelectorAll<HTMLButtonElement>(".cat-filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".cat-filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentCat = btn.dataset.cat!;
+      currentPage = 1;
+      renderGrid();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>(".gender-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".gender-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentGender = btn.dataset.gender!;
+      currentPage = 1;
+      renderGrid();
+    });
+  });
+
+  renderGrid();
+</script>

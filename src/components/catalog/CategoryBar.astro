@@ -5,12 +5,18 @@ import { CATEGORIES } from "../../data/items";
 <div class="sticky top-15 z-200 bg-white border-b border-neutral-200">
   <div class="max-w-7xl mx-auto px-8">
     <div class="flex items-center gap-0 overflow-x-auto scrollbar-none">
+      <button
+        class="cat-btn shrink-0 text-[10px] font-bold tracking-widest uppercase text-neutral-400 hover:text-black px-4 py-4 border-b-2 border-transparent hover:border-black transition-all duration-200 whitespace-nowrap bg-transparent cursor-pointer font-sans"
+        data-cat="todos"
+      >
+        Todo
+      </button>
       {CATEGORIES.map(cat => (
         <button
-          class="cat-btn shrink-0 text-[10px] font-bold tracking-widest uppercase text-neutral-400 hover:text-black px-4 py-4 border-b-2 border-transparent hover:border-black transition-all duration-200 whitespace-nowrap bg-transparent cursor-pointer font-sans"
-          data-cat={cat}
+          class="cat-btn shrink-0 text-[10px] font-bold tracking-widets uppercase text-neutral-400 hover:text-black px-4 py-4 border-b-2 border-transparent hover:border-black transition-all duration-200 whitespace-nowrap bg-transparent cursor-pointer font-sans"
+          data-cat={cat.key}
         >
-          {cat === "todos" ? "Todo" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+          {cat.label}
         </button>
       ))}
     </div>
@@ -34,7 +40,6 @@ import { CATEGORIES } from "../../data/items";
     });
   });
 
-  // Activar "Todo" por defecto
   buttons[0]?.classList.add("text-black", "border-black");
   buttons[0]?.classList.remove("text-neutral-400", "border-transparent");
 </script>
