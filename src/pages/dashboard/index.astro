@@ -1,0 +1,14 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import '../../styles/global.css';
+---
+
+<DashboardLayout title="Overview">
+  <p class="text-neutral-600">Contenido del overview...</p>
+</DashboardLayout>
+
+<script>
+  import { getSessionUser } from '../../lib/auth';
+  const user = getSessionUser();
+  if (!user) window.location.href = '/auth/login';
+</script>

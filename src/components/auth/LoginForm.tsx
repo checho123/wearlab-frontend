@@ -18,14 +18,20 @@ export default function LoginForm() {
     setError("");
     setLoading(true);
     try {
+      // Detecta si es email o nickname
+      const isEmail = email.includes("@");
+      const body = isEmail
+        ? { email, password }
+        : { nickname: email, password };
+
       const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(body),
       });
       const data: AuthResponse = await res.json();
       if (!res.ok || !data.success) {
-        setError("Credenciales incorrectas.");
+        setError("Credenciales incorrectas. Verifica tus datos.");
         return;
       }
       saveSession(
@@ -152,14 +158,14 @@ export default function LoginForm() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-black tracking-widest uppercase">
-              Email
+              Email o Nickname
             </label>
             <input
-              type="email"
+              type="text" // ← cambia de "email" a "text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-3.5 text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-red-700 transition-colors"
+              placeholder="Email o nickname"
+              className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-3 text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-red-700 transition-colors"
             />
           </div>
 

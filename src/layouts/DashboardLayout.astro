@@ -1,0 +1,42 @@
+---
+import "../styles/global.css";
+import Sidebar from "../components/dashboard/Sidebar";
+import TopbarProfile from "../components/dashboard/TopbarProfile";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — WearLab</title>
+  </head>
+  <body class="bg-[#111] text-white m-0 p-0 overflow-hidden">
+    <div class="flex h-screen w-screen overflow-hidden">
+
+      <Sidebar client:load currentPath={currentPath} />
+
+      <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header class="h-14 bg-[#0d0d0d] border-b border-[#1a1a1a] flex items-center justify-between px-7 shrink-0">
+          <div class="flex items-baseline gap-3">
+            <h1 class="font-serif text-lg font-normal text-white m-0">{title}</h1>
+            <span class="text-xs text-neutral-700">/ Dashboard</span>
+          </div>
+          <TopbarProfile client:load />
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-7">
+          <slot />
+        </main>
+      </div>
+
+    </div>
+  </body>
+</html>
