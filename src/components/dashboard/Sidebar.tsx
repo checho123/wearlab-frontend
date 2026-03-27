@@ -15,22 +15,22 @@ interface Props {
 }
 
 const adminLinks = [
-  { href: "/dashboard", label: "Inicio", icon: LayoutDashboard },
-  { href: "/dashboard/disenadores", label: "Diseñadores", icon: Users },
-  { href: "/dashboard/prendas", label: "Prendas", icon: Tag },
-  { href: "/dashboard/categorias", label: "Categorías", icon: List },
-  { href: "/dashboard/ordenes", label: "Órdenes", icon: ShoppingBag },
+  { href: "/dashboard",            label: "Overview",   icon: LayoutDashboard },
+  { href: "/dashboard/designers",  label: "Designers",  icon: Users },
+  { href: "/dashboard/garments",   label: "Garments",   icon: Tag },
+  { href: "/dashboard/categories", label: "Categories", icon: List },
+  { href: "/dashboard/orders",     label: "Orders",     icon: ShoppingBag },
 ];
 
 const designerLinks = [
-  { href: "/dashboard", label: "Inicio", icon: LayoutDashboard },
-  { href: "/dashboard/prendas", label: "Mis prendas", icon: Tag },
-  { href: "/dashboard/ordenes", label: "Mis órdenes", icon: ShoppingBag },
+  { href: "/dashboard",           label: "Overview",    icon: LayoutDashboard },
+  { href: "/dashboard/garments",  label: "My garments", icon: Tag },
+  { href: "/dashboard/orders",    label: "My orders",   icon: ShoppingBag },
 ];
 
 const userLinks = [
-  { href: "/dashboard", label: "Inicio", icon: LayoutDashboard },
-  { href: "/dashboard/ordenes", label: "Mis órdenes", icon: ShoppingBag },
+  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard/orders", label: "My orders", icon: ShoppingBag },
 ];
 
 export default function Sidebar({ currentPath }: Props) {
