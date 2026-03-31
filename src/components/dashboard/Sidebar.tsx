@@ -15,21 +15,21 @@ interface Props {
 }
 
 const adminLinks = [
-  { href: "/dashboard",            label: "Overview",   icon: LayoutDashboard },
-  { href: "/dashboard/designers",  label: "Designers",  icon: Users },
-  { href: "/dashboard/garments",   label: "Garments",   icon: Tag },
+  { href: "/dashboard", label: "Home", icon: LayoutDashboard },
+  { href: "/dashboard/users", label: "Users", icon: Users },
+  { href: "/dashboard/garments", label: "Garments", icon: Tag },
   { href: "/dashboard/categories", label: "Categories", icon: List },
-  { href: "/dashboard/orders",     label: "Orders",     icon: ShoppingBag },
+  { href: "/dashboard/orders", label: "Orders", icon: ShoppingBag },
 ];
 
 const designerLinks = [
-  { href: "/dashboard",           label: "Overview",    icon: LayoutDashboard },
-  { href: "/dashboard/garments",  label: "My garments", icon: Tag },
-  { href: "/dashboard/orders",    label: "My orders",   icon: ShoppingBag },
+  { href: "/dashboard", label: "Home", icon: LayoutDashboard },
+  { href: "/dashboard/garments", label: "My garments", icon: Tag },
+  { href: "/dashboard/orders", label: "My orders", icon: ShoppingBag },
 ];
 
 const userLinks = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/dashboard/orders", label: "My orders", icon: ShoppingBag },
 ];
 
