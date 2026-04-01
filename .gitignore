@@ -39,12 +39,6 @@ pnpm-debug.log*
 *.tsbuildinfo
 
 
-# ── UNITY WEBGL BUILD ─────────────────────
-# El build de Unity se genera aparte y es muy pesado
-# Se sirve desde /public/unity pero NO va al repo
-public/unity/Build/
-public/unity/TemplateData/
-
 # Sí subir la carpeta vacía con un .gitkeep
 # public/unity/.gitkeep  ← para que la carpeta exista en el repo
 
