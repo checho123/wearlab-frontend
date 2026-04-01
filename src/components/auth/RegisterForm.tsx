@@ -32,7 +32,7 @@ export default function RegisterForm() {
     try {
       const body: Record<string, string> = {
         fullname, email, phone, password,
-        role: 'NONE',
+        role: userType === 'DESIGNER' ? 'DESIGNER' : 'USER',
         nickname: nickname || email.split('@')[0],
       };
       if (userType === 'DESIGNER') body.bio = bio;

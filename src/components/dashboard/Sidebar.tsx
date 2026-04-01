@@ -25,12 +25,11 @@ const adminLinks = [
 const designerLinks = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/dashboard/garments", label: "My garments", icon: Tag },
-  { href: "/dashboard/orders", label: "My orders", icon: ShoppingBag },
 ];
 
 const userLinks = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
-  { href: "/dashboard/orders", label: "My orders", icon: ShoppingBag },
+  { href: "/dashboard/garments", label: "My garments", icon: Tag },
 ];
 
 export default function Sidebar({ currentPath }: Props) {

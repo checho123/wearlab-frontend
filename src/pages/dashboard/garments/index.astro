@@ -1,0 +1,22 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import UnityViewer from '../../../components/unity/UnityViewer';
+---
+
+<DashboardLayout title="Garments">
+  <div class="fixed inset-0 left-55 top-14 flex flex-col">
+    
+    <!-- Breadcrumb -->
+    <div class="h-11 bg-[#0a0a0a] border-b border-[#1a1a1a] flex items-center px-5 gap-3 shrink-0">
+      <span class="text-neutral-500 text-xs">Garments</span>
+    </div>
+
+    <!-- Unity -->
+    <div class="flex-1 flex items-center justify-center bg-[#0a0a0a] p-6">
+      <div class="w-full max-w-300 h-full rounded-xl overflow-hidden">
+        <UnityViewer client:only="react" userGuid="" itemGuid="" />
+      </div>
+    </div>
+
+  </div>
+</DashboardLayout>
