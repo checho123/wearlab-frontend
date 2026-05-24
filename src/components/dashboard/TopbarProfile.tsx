@@ -81,7 +81,7 @@ export default function TopbarProfile() {
             </div>
           </div>
           <a
-            href="/dashboard/perfil"
+            href="/dashboard/profile"
             className="flex items-center gap-2 px-4 py-2.5 text-xs text-neutral-400 hover:text-white hover:bg-[#1a1a1a] transition-colors no-underline"
           >
             <User size={12} className="shrink-0" />

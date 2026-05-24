@@ -1,0 +1,9 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import ProfileView from '../../components/dashboard/ProfileView';
+import '../../styles/global.css';
+---
+
+<DashboardLayout title="Mi Perfil">
+  <ProfileView client:only="react" />
+</DashboardLayout>
